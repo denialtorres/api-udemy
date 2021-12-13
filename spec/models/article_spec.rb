@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Article, type: :model do
   describe '#validations' do
     let(:article) { create(:article) }
-    let(:article_two) { build(:article) }
+    let(:article_two) { build(:article, slug: article.slug) }
 
     it 'test that a factory is valid' do
       expect(article).to be_valid # article.valid? == true
@@ -28,7 +28,6 @@ RSpec.describe Article, type: :model do
     end
 
     it 'validates uniqueness of the slug' do
-      article_two.slug = article.slug
       expect(article_two).not_to be_valid
       expect(article_two.errors[:slug]).to include("has already been taken")
 
