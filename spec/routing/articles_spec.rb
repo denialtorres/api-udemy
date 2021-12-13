@@ -11,6 +11,6 @@ RSpec.describe '/articles routes' do
   end
 
   it 'routes to articles#show' do
-    expect(get("articles/#{article.id}")).to route_to('articles#show', id: "#{article.id}")
+    expect(get("articles/#{article.id}")).to route_to('articles#show', id: article.id.to_s)
   end
 end
