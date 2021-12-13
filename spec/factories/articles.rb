@@ -4,4 +4,8 @@ FactoryBot.define do
     content { "Sample Content" }
     slug { "sample-article" }
   end
+
+  sequence :slug do |n|
+    "sample-article-#{n}"
+  end
 end
