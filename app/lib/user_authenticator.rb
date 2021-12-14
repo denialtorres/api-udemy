@@ -13,6 +13,7 @@ class UserAuthenticator
     raise AuthenticationError if token.try(:error).present?
 
     prepare_user
+
     @access_token = if user.access_token.present?
                       user.access_token
                     else
@@ -28,8 +29,8 @@ class UserAuthenticator
 
   def client
     @client ||= Octokit::Client.new(
-      client_id: 'f56bc467ba2f673862d4',
-      client_secret: 'd597767a4adbeaf3c36cfecf89c1d828111a9a25'
+      client_id: 'x',
+      client_secret: 'x'
     )
   end
 
