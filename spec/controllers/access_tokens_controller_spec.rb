@@ -2,27 +2,6 @@ require 'rails_helper'
 
 RSpec.describe AccessTokensController, type: :controller do
   describe '#create' do
-    shared_examples_for 'unauthorized_requests' do
-      let(:authentication_error) do
-        {
-          status: '401',
-          source: { pointer: '/code' },
-          title: 'Authentication code is invalid',
-          detail: 'You must provide a valid code in order to exchange it for token'
-        }
-      end
-
-      it 'should return 401 status code' do
-        subject
-        expect(response).to have_http_status(401)
-      end
-
-      it 'should  return a proper error body' do
-        subject
-        expect(json[:errors]).to include(authentication_error)
-      end
-    end
-
     context 'when no code provided' do
       subject { post :create }
       it_behaves_like 'unauthorized_requests'
@@ -66,36 +45,26 @@ RSpec.describe AccessTokensController, type: :controller do
       end
 
       it 'should return proper json body' do
-        expect{ subject }.to change{ User.count }.by(1)
+        expect { subject }.to change { User.count }.by(1)
 
         user = User.find_by(login: 'jsmith1')
-        expect(json_data[:attributes].stringify_keys).to include({ 'id' => user.access_token.id, 'token' => user.access_token.token })
+        expect(json_data[:attributes].stringify_keys).to include({ 'id' => user.access_token.id,
+                                                                   'token' => user.access_token.token })
       end
     end
   end
 
   describe 'DELETE #destroy' do
-    context 'when invalid request' do
-      let(:authorization_error) do
-        {
-          status: '403',
-          source: { pointer: '/headers/authorization' },
-          title: 'Not authorized',
-          detail: 'You have no right to access this resource'
-        }
-      end
+    subject { delete :destroy }
 
-      subject { delete :destroy }
+    context 'when no authorization header provided' do
+      it_behaves_like 'forbidden_request'
+    end
 
-      it 'should return 403 status code' do
-        subject
-        expect(response).to have_http_status(:forbidden)
-      end
+    context 'when invalid authorization header provider' do
+      before { request.headers['authorization_error'] = 'Invalid token'}
 
-      it 'should return proper error body' do
-        subject
-        expect(json[:errors]).to include(authorization_error)
-      end
+      it_behaves_like 'forbidden_request'
     end
 
     context 'when valid request' do
