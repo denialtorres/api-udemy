@@ -68,5 +68,18 @@ RSpec.describe ArticlesController, type: :request do
         )
       end
     end
+
+    describe '#create' do
+      subject { post '/articles' }
+
+      context 'when no code proved' do
+        it_behaves_like 'forbidden_request'
+      end
+
+      context 'when invalid code provided' do
+        before { request.headers['authorization_error'] = 'Invalid token' }
+        it_behaves_like 'forbidden_request'
+      end
+    end
   end
 end
