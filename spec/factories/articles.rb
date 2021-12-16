@@ -8,4 +8,8 @@ FactoryBot.define do
   sequence :slug do |n|
     "sample-article-#{n}"
   end
+
+  sequence :title do |n|
+    "Super Title#{n}"
+  end
 end

@@ -16,14 +16,18 @@ class ArticlesController < ApplicationController
   def create
     article = Article.new(article_params)
     article.save!
+    render json: serializer.new(article), status: :created
   end
 
   private
+
   def serializer
     ArticleSerializer
   end
 
   def article_params
-    ActionController::Parameters.new
+    params.require(:data)
+          .require(:attributes)
+          .permit(:title, :content, :slug)
   end
 end

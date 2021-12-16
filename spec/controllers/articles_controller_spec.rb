@@ -122,6 +122,36 @@ RSpec.describe ArticlesController, type: :controller do
           )
         end
       end
+
+      context 'when sucess request sent' do
+        let(:valid_attributes) do
+          {
+            data: {
+              attributes: {
+                title: generate(:title),
+                content: 'this is a super content',
+                slug: generate(:slug)
+              }
+            }
+          }
+        end
+
+        subject { post :create, params: valid_attributes }
+
+        it 'should have 201 status code' do
+          subject
+          expect(response).to have_http_status(:created)
+        end
+
+        it 'should have proper json body data' do
+          subject
+          expect(json_data).to include(valid_attributes[:data])
+        end
+
+        it 'should crete the article' do
+          expect { subject }.to change { Article.count }.by(1)
+        end
+      end
     end
   end
 end
