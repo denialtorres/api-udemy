@@ -17,4 +17,9 @@ RSpec.describe '/articles routes' do
   it 'should route to articles created' do
     expect(post '/articles').to route_to('articles#create')
   end
+
+  it 'should route to articles update' do
+    expect(put("articles/#{article.id}")).to route_to('articles#update', id: article.id.to_s)
+    expect(patch("articles/#{article.id}")).to route_to('articles#update', id: article.id.to_s)
+  end
 end
