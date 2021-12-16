@@ -7,6 +7,8 @@ class ApplicationController < ActionController::API
                           })
   rescue_from ::StandardError, with: ->(e) { handle_error(e) }
 
+  rescue_from ActiveRecord::RecordInvalid, with: lambda { |e| handle_validation_error(e) }
+
   rescue_from UserAuthenticator::AuthenticationError, with: :authentication_error
   rescue_from AuthorizationError, with: :authorization_error
 
@@ -44,5 +46,11 @@ class ApplicationController < ActionController::API
       detail: 'You have no right to access this resource'
     }
     render json: { 'errors' => [error] }, status: 403
+  end
+
+  def handle_validation_error(error)
+    error_model = error.try(:model) || error.try(:record)
+    mapped = JsonapiErrorsHandler::Errors::Invalid.new(errors: error_model.errors)
+    render_error(mapped)
   end
 end

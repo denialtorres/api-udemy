@@ -14,9 +14,16 @@ class ArticlesController < ApplicationController
   end
 
   def create
+    article = Article.new(article_params)
+    article.save!
   end
 
+  private
   def serializer
     ArticleSerializer
+  end
+
+  def article_params
+    ActionController::Parameters.new
   end
 end
