@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
 
   def password
-    @password ||= BCrypt::Password.new(encrypted_password)
+    @password ||= BCrypt::Password.new(encrypted_password) if encrypted_password.present?
   end
 
   def password=(new_password)
