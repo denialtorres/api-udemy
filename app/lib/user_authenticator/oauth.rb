@@ -1,6 +1,8 @@
 # servicer that handles the whole authentication logic
 class UserAuthenticator::Oauth < UserAuthenticator
-  attr_reader :user, :code, :access_token
+  class AuthenticationError < StandardError; end
+  
+  attr_reader :user
 
   def initialize(code)
     @code = code
@@ -11,12 +13,6 @@ class UserAuthenticator::Oauth < UserAuthenticator
     raise AuthenticationError if token.try(:error).present?
 
     prepare_user
-
-    @access_token = if user.access_token.present?
-                      user.access_token
-                    else
-                      user.create_access_token
-                    end
   end
 
   private
@@ -45,4 +41,6 @@ class UserAuthenticator::Oauth < UserAuthenticator
               User.create(user_data.merge(provider: 'github'))
             end
   end
+
+  attr_reader :code
 end
