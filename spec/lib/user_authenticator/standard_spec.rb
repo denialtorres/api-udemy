@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe UserAuthenticator::Standard do
   describe "#perform" do
-    let(:authenticator) { described_clas.new('jsmith', 'password') }
+    let(:authenticator) { described_class.new('jsmith', 'password') }
 
     subject { authenticator.perform }
 
