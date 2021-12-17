@@ -3,6 +3,7 @@ FactoryBot.define do
     title { 'Sample Article' }
     content { 'Sample Content' }
     sequence(:slug) { |n| "sample-article-#{n}" }
+    association :user
   end
 
   sequence :slug do |n|
