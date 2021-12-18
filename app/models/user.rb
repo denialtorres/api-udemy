@@ -8,6 +8,9 @@ class User < ApplicationRecord
 
   def password
     @password ||= BCrypt::Password.new(encrypted_password) if encrypted_password.present?
+  rescue BCrypt::Errors::InvalidHash
+    encrypted = BCrypt::Password.create(encrypted_password)
+    @password ||= BCrypt::Password.new(encrypted) if encrypted_password.present?
   end
 
   def password=(new_password)
