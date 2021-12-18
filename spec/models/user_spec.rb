@@ -22,5 +22,11 @@ RSpec.describe User, type: :model do
       other_user.login = 'new_login'
       expect(other_user).to be_valid
     end
+
+    it 'should validate prescence of password for standard provider' do
+      user = build :user, login: 'jsmith', provider: 'standard', password: nil
+      expect(user).not_to be_valid
+      expect(user.errors.messages[:password]).to include("can't be blank")
+    end
   end
 end
