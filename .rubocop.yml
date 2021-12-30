@@ -5,7 +5,6 @@ AllCops:
     - "db/*"
     - "db/*/*"
     - "bin/bundle"
-    - "spec/models/*"
     - "spec/lib/*/*"
     - "spec/lib/*"
     - "spec/controllers/*"
@@ -29,3 +28,7 @@ Style/Documentation:
 
 Lint/MissingSuper:
   Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - "spec/*/*"
