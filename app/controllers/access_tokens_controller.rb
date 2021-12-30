@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AccessTokensController < ApplicationController
   skip_before_action :authorize!, only: :create
 

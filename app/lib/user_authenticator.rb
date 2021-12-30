@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 class UserAuthenticator
   attr_reader :authenticator, :access_token
 
   def initialize(code: nil, login: nil, password: nil)
     @authenticator = if code.present?
-      Oauth.new(code)
-    else
-      Standard.new(login, password)
-    end
+                       Oauth.new(code)
+                     else
+                       Standard.new(login, password)
+                     end
   end
 
   def perform
@@ -23,9 +25,9 @@ class UserAuthenticator
 
   def set_access_token
     @access_token = if user.access_token.present?
-      user.access_token
-    else
-      user.create_access_token
-    end
+                      user.access_token
+                    else
+                      user.create_access_token
+                    end
   end
 end

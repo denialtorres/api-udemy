@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::API
   class AuthorizationError < StandardError; end
 
   include JsonapiErrorsHandler
   ErrorMapper.map_errors!({
-                            'ActiveRecord::RecordNotFound' => 'JsonapiErrorsHandler::Errors::NotFound'
+                            "ActiveRecord::RecordNotFound" => "JsonapiErrorsHandler::Errors::NotFound"
                           })
   rescue_from ::StandardError, with: ->(e) { handle_error(e) }
 
@@ -22,7 +24,7 @@ class ApplicationController < ActionController::API
   end
 
   def access_token
-    provide_token = request.authorization&.gsub(/\ABearer\s/, '')
+    provide_token = request.authorization&.gsub(/\ABearer\s/, "")
     @access_token = AccessToken.find_by(token: provide_token)
   end
 
@@ -34,30 +36,30 @@ class ApplicationController < ActionController::API
     error = {
       "status" => "403",
       "source" => { "pointer" => "/headers/authorization" },
-      "title" =>  "Not authorized",
+      "title" => "Not authorized",
       "detail" => "You have no right to access this resource."
     }
-    render json: { "errors": [ error ] }, status: 403
+    render json: { "errors": [error] }, status: 403
   end
 
   def authentication_oauth_error
     error = {
-      'status' => '401',
-      'source' => { 'pointer' => '/code' },
-      'title' => 'Authentication code is invalid',
-      'detail' => 'You must provide valid code in order to exchange it for token'
+      "status" => "401",
+      "source" => { "pointer" => "/code" },
+      "title" => "Authentication code is invalid",
+      "detail" => "You must provide valid code in order to exchange it for token"
     }
     render json: { "errors": [error] }, status: 401
   end
 
   def authentication_standard_error
     error = {
-      status: '401',
-      source: { pointer: '/data/attributes/password' },
-      title: 'Invalid login or password',
-      detail: 'You must provide valid credentials in order to exchange them for token'
+      status: "401",
+      source: { pointer: "/data/attributes/password" },
+      title: "Invalid login or password",
+      detail: "You must provide valid credentials in order to exchange them for token"
     }
-    render json: { 'errors' => [error] }, status: 401
+    render json: { "errors" => [error] }, status: 401
   end
 
   def handle_validation_error(error)
