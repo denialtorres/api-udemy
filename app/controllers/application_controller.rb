@@ -39,7 +39,7 @@ class ApplicationController < ActionController::API
       "title" => "Not authorized",
       "detail" => "You have no right to access this resource."
     }
-    render json: { "errors": [error] }, status: 403
+    render json: { errors: [error] }, status: 403
   end
 
   def authentication_oauth_error
@@ -49,7 +49,7 @@ class ApplicationController < ActionController::API
       "title" => "Authentication code is invalid",
       "detail" => "You must provide valid code in order to exchange it for token"
     }
-    render json: { "errors": [error] }, status: 401
+    render json: { errors: [error] }, status: 401
   end
 
   def authentication_standard_error
