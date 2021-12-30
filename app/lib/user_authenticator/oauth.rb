@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 # servicer that handles the whole authentication logic
 class UserAuthenticator::Oauth < UserAuthenticator
   class AuthenticationError < StandardError; end
-  
+
   attr_reader :user
 
   def initialize(code)
@@ -23,8 +25,8 @@ class UserAuthenticator::Oauth < UserAuthenticator
 
   def client
     @client ||= Octokit::Client.new(
-      client_id: 'x',
-      client_secret: 'x'
+      client_id: "x",
+      client_secret: "x"
     )
   end
 
@@ -38,7 +40,7 @@ class UserAuthenticator::Oauth < UserAuthenticator
     @user = if User.exists?(login: user_data[:login])
               User.find_by(login: user_data[:login])
             else
-              User.create(user_data.merge(provider: 'github'))
+              User.create(user_data.merge(provider: "github"))
             end
   end
 

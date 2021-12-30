@@ -1,13 +1,24 @@
 AllCops:
   TargetRubyVersion: 2.7.2
+  Exclude:
+    - "db/*"
+    - "db/*/*"
+    - "bin/bundle"
+    - "spec/models/*"
+    - "spec/lib/*/*"
+    - "spec/lib/*"
+    - "spec/controllers/*"
 
 Style/StringLiterals:
   Enabled: true
   EnforcedStyle: double_quotes
 
 Style/StringLiteralsInInterpolation:
-  Enable: true
+  Enabled: true
   EnforcedStyle: double_quotes
 
 Layout/LineLength:
   Max: 120
+
+Style/ClassAndModuleChildren:
+  Enabled: false

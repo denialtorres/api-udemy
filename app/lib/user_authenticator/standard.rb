@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserAuthenticator::Standard < UserAuthenticator
   class AuthenticationError < StandardError; end
 
@@ -9,7 +11,7 @@ class UserAuthenticator::Standard < UserAuthenticator
   end
 
   def perform
-    raise AuthenticationError if ( login.blank? || password.blank? )
+    raise AuthenticationError if login.blank? || password.blank?
     raise AuthenticationError unless User.exists?(login: login)
 
     user = User.find_by(login: login)
