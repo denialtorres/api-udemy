@@ -17,7 +17,9 @@ class User < ApplicationRecord
   end
 
   def password=(new_password)
+    # rubocop:disable Lint/ReturnInVoidContext
     return @password = new_password if new_password.blank?
+    # rubocop:enable Lint/ReturnInVoidContext
 
     @password = BCrypt::Password.create(new_password)
     self.encrypted_password = @password
